@@ -1,5 +1,6 @@
 package com.ccamposhe.workhub.domain;
 
+import com.ccamposhe.workhub.domain.enums.MemberRole;
 import com.ccamposhe.workhub.domain.enums.MemberStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,4 +44,8 @@ public class WorkspaceMember {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private MemberStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberRole role;
 }

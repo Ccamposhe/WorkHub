@@ -3,6 +3,7 @@ package com.ccamposhe.workhub.services;
 import com.ccamposhe.workhub.domain.User;
 import com.ccamposhe.workhub.domain.Workspace;
 import com.ccamposhe.workhub.domain.WorkspaceMember;
+import com.ccamposhe.workhub.domain.enums.MemberRole;
 import com.ccamposhe.workhub.domain.enums.MemberStatus;
 import com.ccamposhe.workhub.repositories.UserRepository;
 import com.ccamposhe.workhub.repositories.WorkspaceMemberRepository;
@@ -36,6 +37,7 @@ public class WorkspaceMemberService {
         newMember.setUser(user);
         newMember.setWorkspace(workspace);
         newMember.setStatus(MemberStatus.PENDING);
+        newMember.setRole(MemberRole.MEMBER);
 
         return memberRepository.save(newMember);
     }
