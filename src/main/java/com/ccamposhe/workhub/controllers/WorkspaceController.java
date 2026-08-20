@@ -24,12 +24,7 @@ public class WorkspaceController {
 
     @PostMapping
     public ResponseEntity<Workspace> create(@RequestBody @Valid WorkspaceRequestDTO dto){
-
-        Workspace newWorkspace = new Workspace();
-        newWorkspace.setName(dto.name());
-        newWorkspace.setInviteCode(dto.inviteCode());
-
-        Workspace savedWorkspace = service.createWorkspace(newWorkspace);
+        Workspace savedWorkspace = service.createWorkspace(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedWorkspace);
     }

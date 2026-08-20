@@ -46,6 +46,5 @@ public class WorkspaceMember {
     private MemberStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private MemberRole role;
 }
