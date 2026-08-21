@@ -42,12 +42,19 @@ public class WorkspaceMemberService {
         return memberRepository.save(newMember);
     }
 
-    public WorkspaceMember approveMember(UUID memberId){
-        WorkspaceMember member = memberRepository.findById(memberId)
+    public WorkspaceMember approveMember(UUID adminId, UUID memberId){
+        WorkspaceMember targetMember = memberRepository.findById(memberId)
                 .orElseThrow(()-> new RuntimeException("Solicitacao nao encontrada"));
 
-        member.setStatus(MemberStatus.APPROVED);
+        WorkspaceMember adminRequest = memberRepository.findByUser_IdAndWorkspace_Id(adminId, targetMember.getWorkspace().getId())
+                        .orElseThrow(()-> new RuntimeException("Voce nao faz parte desta empresa"));
 
-        return memberRepository.save(member);
+        if (adminRequest.getRole() != MemberRole.ADMIN){
+            throw new RuntimeException("Acesso negado: Apenas administrador pode aprovar membros");
+        }
+
+        targetMember.setStatus(MemberStatus.APPROVED);
+
+        return memberRepository.save(targetMember);
     }
 }

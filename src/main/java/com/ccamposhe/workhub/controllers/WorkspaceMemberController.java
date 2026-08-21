@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,8 +33,8 @@ public class WorkspaceMemberController {
     }
 
     @PutMapping("/{memberId}/approve")
-    public ResponseEntity<WorkspaceMember> approve(@PathVariable UUID memberId){
-        WorkspaceMember approvedMember = service.approveMember(memberId);
+    public ResponseEntity<WorkspaceMember> approve(@PathVariable UUID memberId, @RequestHeader("user-id") UUID adminId){
+        WorkspaceMember approvedMember = service.approveMember(adminId, memberId);
 
         return ResponseEntity.ok(approvedMember);
     }
