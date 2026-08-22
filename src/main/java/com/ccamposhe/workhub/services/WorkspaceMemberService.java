@@ -83,4 +83,11 @@ public class WorkspaceMemberService {
         memberRepository.delete(targetMember);
 
     }
+    public List<WorkspaceMember> listMyWorkspaces(UUID userId){
+        userRepository.findById(userId)
+                .orElseThrow(()-> new RuntimeException("Usuario não encontrado"));
+
+        return memberRepository.findByUser_Id(userId);
+    }
+
 }
