@@ -11,6 +11,7 @@ import com.ccamposhe.workhub.repositories.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -56,5 +57,12 @@ public class WorkspaceMemberService {
         targetMember.setStatus(MemberStatus.APPROVED);
 
         return memberRepository.save(targetMember);
+    }
+
+    public List<WorkspaceMember> listMemberByWorkspace(UUID workspaceId){
+        workspaceRepository.findById(workspaceId)
+                .orElseThrow(()-> new RuntimeException("Empresa não encontrada"));
+
+        return memberRepository.findByWorkspace_Id(workspaceId);
     }
 }
