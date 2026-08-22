@@ -65,4 +65,22 @@ public class WorkspaceMemberService {
 
         return memberRepository.findByWorkspace_Id(workspaceId);
     }
+
+    public void removeMember(UUID memberId, UUID requesterId){
+        WorkspaceMember targetMember = memberRepository.findById(memberId)
+                .orElseThrow(()-> new RuntimeException("Vinculo não encontrado"));
+
+        boolean isSelf = targetMember.getUser().getId().equals(requesterId);
+
+        boolean isAdmin = memberRepository.findByUser_IdAndWorkspace_Id(requesterId, targetMember.getWorkspace().getId())
+                .map(member -> member.getRole() == MemberRole.ADMIN)
+                .orElse(false);
+
+        if (!isSelf && !isAdmin){
+            throw new RuntimeException("Acesso negado, voce não tem permissão para remover membros");
+        }
+
+        memberRepository.delete(targetMember);
+
+    }
 }

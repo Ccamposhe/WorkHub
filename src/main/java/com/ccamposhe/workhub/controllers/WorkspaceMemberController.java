@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,4 +39,11 @@ public class WorkspaceMemberController {
 
         return ResponseEntity.ok(approvedMember);
     }
+
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<Void> removeMember(@PathVariable UUID memberId, @RequestHeader("user-id") UUID requesterId){
+        service.removeMember(memberId, requesterId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
