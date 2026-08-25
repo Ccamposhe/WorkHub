@@ -59,9 +59,11 @@ public class WorkspaceMemberService {
         return memberRepository.save(targetMember);
     }
 
-    public List<WorkspaceMember> listMemberByWorkspace(UUID workspaceId){
-        workspaceRepository.findById(workspaceId)
-                .orElseThrow(()-> new RuntimeException("Empresa não encontrada"));
+    public List<WorkspaceMember> listMemberByWorkspace(UUID workspaceId, UUID requesterId){
+        boolean isMember = memberRepository.existsByUser_IdAndWorkspace_Id(requesterId, workspaceId);
+        if (!isMember) {
+            throw new RuntimeException("Acesso negado: você não pertence a este workspace");
+        }
 
         return memberRepository.findByWorkspace_Id(workspaceId);
     }
@@ -77,7 +79,7 @@ public class WorkspaceMemberService {
                 .orElse(false);
 
         if (!isSelf && !isAdmin){
-            throw new RuntimeException("Acesso negado, voce não tem permissão para remover membros");
+            throw new RuntimeException("Acesso negado: voce não tem permissão para remover membros");
         }
 
         memberRepository.delete(targetMember);

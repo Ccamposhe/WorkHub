@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +25,13 @@ public class WorkspaceService {
     private final WorkspaceMemberRepository memberRepository;
 
     @Transactional
-    public Workspace createWorkspace(WorkspaceRequestDTO dto){
+    public Workspace createWorkspace(WorkspaceRequestDTO dto, UUID userId){
 
         if (repository.existsByInviteCode(dto.inviteCode())){ //receber o valor boolean, criado no repository, verificando se o valor atual ja existe
             throw new RuntimeException("Este codigo ja esta em uso");
         }
 
-        User creator = userRepository.findById(dto.userId())
+        User creator = userRepository.findById(userId)
                 .orElseThrow(()-> new RuntimeException("Usuario nao encontrado"));
 
         Workspace workspace = new Workspace();
@@ -49,8 +50,11 @@ public class WorkspaceService {
         return savedWorkspace;
 
     }
-    public List<Workspace> findAllWorkspaces(){
-        return repository.findAll();
+    public List<Workspace> findMyWorkspaces(UUID userId) {
+        return memberRepository.findByUser_Id(userId).stream()
+                .filter(member -> member.getStatus() == MemberStatus.APPROVED)
+                .map(WorkspaceMember::getWorkspace)
+                .toList();
     }
 
 }

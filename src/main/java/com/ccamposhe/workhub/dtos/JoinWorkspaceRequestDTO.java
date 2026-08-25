@@ -7,9 +7,6 @@ import java.util.UUID;
 
 public record JoinWorkspaceRequestDTO(
 
-        @NotNull(message = "O id do usuario é obrigatorio")
-        UUID userId,
-
         @NotBlank(message = "O codigo de convite é obrigatorio")
         String inviteCode
 ) {

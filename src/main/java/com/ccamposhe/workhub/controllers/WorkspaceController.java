@@ -1,5 +1,6 @@
 package com.ccamposhe.workhub.controllers;
 
+import com.ccamposhe.workhub.domain.User;
 import com.ccamposhe.workhub.domain.Workspace;
 import com.ccamposhe.workhub.domain.WorkspaceMember;
 import com.ccamposhe.workhub.dtos.WorkspaceRequestDTO;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,22 +30,25 @@ public class WorkspaceController {
     private final WorkspaceMemberService memberService;
 
     @PostMapping
-    public ResponseEntity<Workspace> create(@RequestBody @Valid WorkspaceRequestDTO dto){
-        Workspace savedWorkspace = service.createWorkspace(dto);
+    public ResponseEntity<Workspace> create(@RequestBody @Valid WorkspaceRequestDTO dto, @AuthenticationPrincipal User loggedUser){
+        Workspace savedWorkspace = service.createWorkspace(dto, loggedUser.getId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedWorkspace);
     }
 
     @GetMapping
-    public ResponseEntity<List<Workspace>> findAll(){
-        List<Workspace> workspaces = service.findAllWorkspaces();
+    public ResponseEntity<List<Workspace>> findMyWorkspaces(@AuthenticationPrincipal User loggedUser) {
+        List<Workspace> workspaces = service.findMyWorkspaces(loggedUser.getId());
 
         return ResponseEntity.ok(workspaces);
     }
 
     @GetMapping("/{workspaceId}/members")
-    public ResponseEntity<List<WorkspaceMember>> listMembers(@PathVariable UUID workspaceId){
-        List<WorkspaceMember> members = memberService.listMemberByWorkspace(workspaceId);
+    public ResponseEntity<List<WorkspaceMember>> listMembers(
+            @PathVariable("workspaceId") UUID workspaceId,
+            @AuthenticationPrincipal User loggedUser
+    ) {
+        List<WorkspaceMember> members = memberService.listMemberByWorkspace(workspaceId, loggedUser.getId());
 
         return ResponseEntity.ok(members);
     }
