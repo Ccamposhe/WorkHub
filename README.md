@@ -5,7 +5,7 @@
 [![Spring Security](https://img.shields.io/badge/Spring_Security-JWT-green?style=for-the-badge&logo=springsecurity)](https://spring.io/projects/spring-security)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2B-4169E1?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-All_Rights_Reserved-red?style=for-the-badge)](LICENSE)
 
 O **WorkHub** é uma API RESTful robusta desenvolvida em Java e Spring Boot para gerenciamento colaborativo de equipes e espaços de trabalho (workspaces). A aplicação oferece autenticação *stateless* com JWT, controle de acesso refinado baseado em perfis (RBAC), gestão de membros e convites, e isolamento de ambientes com Docker.
 
