@@ -120,48 +120,37 @@ git clone https://github.com/Ccamposhe/workhub.git
 cd workhub
 ```
 
-### 2. Executar via Docker Compose (Recomendado)
+### 2. Configurar variáveis de ambiente
 
-A maneira mais simples de subir a aplicação e o banco PostgreSQL é utilizando o Docker Compose:
+Crie um arquivo `.env` na raiz do projeto com:
 
-```bash
-docker-compose up -d
+```env
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=workhub
 ```
 
-A API estará rodando em `http://localhost:8080`.
-
-### 3. Executar Localmente (Sem Docker para a API)
-
-Caso queira rodar apenas o PostgreSQL no Docker:
+### 3. Subir o banco de dados com Docker Compose
 
 ```bash
-# Iniciar o banco PostgreSQL via container
-docker run --name workhub-db -e POSTGRES_DB=workhub -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:15-alpine
+docker compose up -d
+```
 
-# Compilar e rodar a aplicação Spring Boot
+O PostgreSQL estará disponível em `localhost:5433`.
+
+### 4. Compilar e rodar a aplicação Spring Boot
+
+```bash
 ./mvnw clean package
 ./mvnw spring-boot:run
 ```
 
----
-
-## 🔑 Variáveis de Ambiente
-
-As configurações principais podem ser ajustadas no arquivo `src/main/resources/application.yml` ou via variáveis de ambiente:
-
-| Variável | Valor Padrão | Descrição |
-|----------|---------------|-----------|
-| `SPRING_DATASOURCE_URL` | `jdbc:postgresql://localhost:5432/workhub` | URL do banco PostgreSQL |
-| `SPRING_DATASOURCE_USERNAME` | `postgres` | Usuário do banco de dados |
-| `SPRING_DATASOURCE_PASSWORD` | `postgres` | Senha do banco de dados |
-| `JWT_SECRET` | *(Chave secreta de 256 bits)* | Chave de assinatura dos tokens JWT |
-| `JWT_EXPIRATION_MS` | `86400000` (24h) | Tempo de expiração do token em ms |
-
+A API estará rodando em `http://localhost:8080`.
 ---
 
 ## 👤 Autor
 
 Desenvolvido por **Carlos Henrique Campos**.
 
-💼 LinkedIn: [Carlos Henrique Campos](#)
+💼 LinkedIn: [Ccamposhe](https://www.linkedin.com/in/ccamposhe/)
 💻 GitHub: [@Ccamposhe](https://github.com/Ccamposhe)
