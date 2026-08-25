@@ -109,7 +109,7 @@ Após iniciar a aplicação, a documentação interativa estará disponível em:
 ## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
-- Java 17+ instalado
+- Java 21+ instalado
 - Maven 3.8+ instalado
 - Docker & Docker Compose (opcional, mas recomendado)
 
