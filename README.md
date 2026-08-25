@@ -32,8 +32,8 @@ A proposta do WorkHub é resolver a complexidade de gerenciamento de permissões
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Linguagem:** Java 17+
-- **Framework Principal:** Spring Boot 3.x
+- **Linguagem:** Java 21+
+- **Framework Principal:** Spring Boot 4.x
 - **Segurança & Autenticação:** Spring Security, JSON Web Token (JWT), BCrypt Password Encoder
 - **Persistência & Banco de Dados:** Spring Data JPA, Hibernate, PostgreSQL, H2 Database (para testes)
 - **Documentação Interativa:** Springdoc OpenAPI / Swagger UI
