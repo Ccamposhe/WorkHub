@@ -6,6 +6,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%2B-4169E1?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow?style=for-the-badge)
 
 O **WorkHub** é uma API RESTful robusta desenvolvida em Java e Spring Boot para gerenciamento colaborativo de equipes e espaços de trabalho (workspaces). A aplicação oferece autenticação *stateless* com JWT, controle de acesso refinado baseado em perfis (RBAC), gestão de membros e convites, e isolamento de ambientes com Docker.
 
