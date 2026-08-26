@@ -50,15 +50,14 @@ O projeto segue a arquitetura em camadas (Controller - Service - Repository - Do
 
 ```text
 src/main/java/com/workhub/api
-├── config/              # Configurações globais (Swagger, CORS, Beans)
-├── controller/          # Endpoints REST (Recepção de requisições e respostas HTTP)
-├── dto/                 # Data Transfer Objects (Request e Response payloads)
-├── entity/              # Entidades JPA (Mapeamento ORM do banco de dados)
-├── enums/               # Enumerações (Roles, Status de Convite, etc.)
-├── exception/           # Handler de exceções global (@RestControllerAdvice)
-├── repository/          # Interfaces de acesso ao banco (Spring Data JPA)
-├── security/            # Filtros JWT, UserDetailsService e configurações de segurança
-└── service/             # Regras de negócio da aplicação
+├── config/          # Configurações gerais da aplicação e beans do Spring
+├── controllers/     # Controladores REST e exposição dos endpoints HTTP
+├── domain/          # Modelos de domínio, entidades JPA e regras core
+│   └── enums/       # Enumerações do sistema (Roles, Status, etc.)
+├── dtos/            # Data Transfer Objects para transporte de dados
+├── infra/           # Infraestrutura, filtros de segurança (JWT) e tratamento de exceções
+├── repositories/    # Interfaces de comunicação com o banco de dados (Spring Data JPA)
+└── services/        # Camada de serviços e regras de negócio da aplicação
 ```
 
 ---
@@ -76,7 +75,7 @@ src/main/java/com/workhub/api
 
 ### 👥 Gestão de Membros & Convites (RBAC)
 - Envio e aceite de convites para participação em workspaces.
-- Atribuição de papéis: `ADMIN`, `MEMBER`, `GUEST`.
+- Atribuição de papéis: `ADMIN`, `MEMBER`.
 - Proteção contra acessos não autorizados entre workspaces distintos (IDOR prevention).
 
 ### 🛡️ Tratamento de Exceções & Validação
@@ -91,19 +90,33 @@ Após iniciar a aplicação, a documentação interativa estará disponível em:
 
 👉 `http://localhost:8080/swagger-ui.html`
 
-### Principais Rotas
+### Principais Rotas da API
 
+#### 🔐 Autenticação
 | Método | Endpoint | Descrição | Autenticação |
 |--------|----------|-----------|---------------|
-| `POST` | `/api/v1/auth/register` | Cadastrar novo usuário | Pública |
-| `POST` | `/api/v1/auth/login` | Realizar login e obter JWT | Pública |
-| `GET` | `/api/v1/workspaces` | Listar workspaces do usuário | 🔒 JWT |
-| `POST` | `/api/v1/workspaces` | Criar novo workspace | 🔒 JWT |
-| `GET` | `/api/v1/workspaces/{id}` | Buscar detalhes do workspace | 🔒 JWT |
-| `PUT` | `/api/v1/workspaces/{id}` | Atualizar dados do workspace | 🔒 JWT (Admin) |
-| `DELETE` | `/api/v1/workspaces/{id}` | Remover workspace | 🔒 JWT (Owner) |
-| `POST` | `/api/v1/workspaces/{id}/invites` | Convidar membro para workspace | 🔒 JWT (Admin) |
-| `PATCH` | `/api/v1/invites/{id}/accept` | Aceitar convite para workspace | 🔒 JWT |
+| `POST` | `/api/auth/login` | Autenticar usuário e obter token JWT | Pública |
+
+#### 👤 Usuários
+| Método | Endpoint | Descrição | Autenticação |
+|--------|----------|-----------|---------------|
+| `POST` | `/api/users` | Cadastrar novo usuário | Pública |
+| `GET` | `/api/users/me` | Obter perfil do usuário autenticado | 🔒 JWT |
+
+#### 📁 Workspace
+| Método | Endpoint | Descrição | Autenticação |
+|--------|----------|-----------|---------------|
+| `POST` | `/api/workspaces` | Criar um novo workspace | 🔒 JWT |
+| `GET` | `/api/workspaces` | Listar workspaces | 🔒 JWT |
+| `GET` | `/api/workspaces/{workspaceId}/members` | Listar membros de um workspace | 🔒 JWT |
+
+#### 👥 Membros do Workspace
+| Método | Endpoint | Descrição | Autenticação |
+|--------|----------|-----------|---------------|
+| `POST` | `/api/members/join` | Solicitar entrada em um workspace | 🔒 JWT |
+| `GET` | `/api/members/my-workspaces` | Listar meus workspaces associados | 🔒 JWT |
+| `PUT` | `/api/members/{memberId}/approve` | Aprovar entrada de um membro | 🔒 JWT |
+| `DELETE` | `/api/members/{memberId}` | Remover membro do workspace | 🔒 JWT |
 
 ---
 
@@ -112,7 +125,7 @@ Após iniciar a aplicação, a documentação interativa estará disponível em:
 ### Pré-requisitos
 - Java 21+ instalado
 - Maven 3.8+ instalado
-- Docker & Docker Compose (opcional, mas recomendado)
+- Docker & Docker Compose (Recomendado)
 
 ### 1. Clonar o repositório
 
